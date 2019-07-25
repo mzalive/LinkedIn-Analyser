@@ -10,10 +10,19 @@ import random
 
 class Crawler:
     def __init__(self):
-        # specifies the path to the chromedriver
-        self.driver = webdriver.Chrome('../'+ parameters.driver_location)
+
+        # headless chrome driver configure
+        options = None
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
+
+        # specifies the path to the chrome driver
+        self.driver = webdriver.Chrome(chrome_options=options, executable_path=parameters.driver_location)
+        # csv writer
         self.writer = self._init_output_file()
+        # link of google search result next page
         self.google_next_page_link = None
+        # number of profiles scraped
         self.count = 0
 
 
