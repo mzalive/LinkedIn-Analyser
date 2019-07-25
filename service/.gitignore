@@ -1,0 +1,10 @@
+# Project exclude paths
+.idea
+
+# General
+.DS_Store
+._*
+
+# python
+/venv/
+*.pyc
