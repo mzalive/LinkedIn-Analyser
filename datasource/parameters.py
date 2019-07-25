@@ -1,5 +1,5 @@
 # filename of crawled data
-file_name = 'results/results.csv'
+path_to_results = 'results/results.csv'
 
 # login credentials
 linkedin_username = ''
@@ -11,3 +11,10 @@ driver_location = 'static/chromedriver'
 
 # google search query
 search_query = 'site:linkedin.com/in/'
+
+# waiting time (sec)
+MIN_WAITING = 1
+MAX_WAITING = 5
+
+# max number of data to crawl
+CRAWL_LIMIT = 10
