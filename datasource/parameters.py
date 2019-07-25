@@ -17,4 +17,4 @@ MIN_WAITING = 1
 MAX_WAITING = 5
 
 # max number of data to crawl
-CRAWL_LIMIT = 10
+CRAWL_LIMIT = 100

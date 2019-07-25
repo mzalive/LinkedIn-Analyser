@@ -1,23 +1,31 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from parsel import Selector
+from threading import Thread
 import csv
 import parameters
 from time import sleep
 import os
 import random
 
+class CrawlerStatus:
+    IDLE = '0'
+    RUNNING = '1'
 
-class Crawler:
+
+class Crawler(Thread):
     def __init__(self):
-
-        # headless chrome driver configure
-        options = None
-        options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-
+        # add threading support
+        Thread.__init__(self)
         # specifies the path to the chrome driver
-        self.driver = webdriver.Chrome(chrome_options=options, executable_path=parameters.driver_location)
+        self.driver = None
+        # current status
+        self.current_status = CrawlerStatus.IDLE
+        self.signal_continue = False
+
+    # reset runtime flags
+    def _pre_start_init(self):
+        self.signal_continue = True
         # csv writer
         self.writer = self._init_output_file()
         # link of google search result next page
@@ -25,6 +33,13 @@ class Crawler:
         # number of profiles scraped
         self.count = 0
 
+        # prepare driver
+        if not self.driver:
+            # headless chrome driver configure
+            options = None
+            options = webdriver.ChromeOptions()
+            # options.add_argument('--headless')
+            self.driver = webdriver.Chrome(chrome_options=options, executable_path=parameters.driver_location)
 
     # sleep for a random waiting time, like a human
     def _pause_humanised(self):
@@ -105,7 +120,9 @@ class Crawler:
 
 
 
-    def crawl(self):
+    def _crawl(self):
+
+        self.current_status = CrawlerStatus.RUNNING
 
         driver = self.driver
 
@@ -113,7 +130,7 @@ class Crawler:
         self._linkedin_login()
 
         # scrape url
-        while self.count < parameters.CRAWL_LIMIT:
+        while self.count < parameters.CRAWL_LIMIT and self.signal_continue:
 
             # get a fresh list of profile urls
             linkedin_urls = self._scrape_profile_urls()
@@ -146,8 +163,30 @@ class Crawler:
 
                 print self._clean_data(name), self._clean_data(title), self._clean_data(location), self._clean_data(connection, 'connection'), self._clean_data(company), self._clean_data(college), self._clean_data(url.encode('utf-8'))
 
+        # crawling finished or terminated
+        self.driver.quit()
+        self.current_status = CrawlerStatus.IDLE
+
+    def run(self):
+        # cold start
+        if self.current_status == CrawlerStatus.IDLE:
+            # init runtime parameters
+            self._pre_start_init()
+            # start crawling
+            self._crawl()
+
+    def stop(self):
+        self.signal_continue = False
+
+    # return status code & message to indicate running condition
+    def status(self):
+        if self.current_status == CrawlerStatus.RUNNING:
+            return self.current_status, 'Running: {:d}'.format(self.count) if self.signal_continue else 'Terminating...'
+        else:
+            return self.current_status, 'Starting...' if self.signal_continue else 'Stopped.'
+
 
 
 if __name__ == '__main__':
     crawler = Crawler()
-    crawler.crawl()
+    print crawler.status()
