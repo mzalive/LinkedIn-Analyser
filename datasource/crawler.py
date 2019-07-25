@@ -134,10 +134,11 @@ class Crawler(Thread):
 
             # get a fresh list of profile urls
             linkedin_urls = self._scrape_profile_urls()
-            self.count += len(linkedin_urls)
 
             # extract data of each profile
             for url in linkedin_urls:
+
+                self.count += 1
                 # pause before loading each URL
                 self._pause_humanised()
                 # open profile
