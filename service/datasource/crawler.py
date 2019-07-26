@@ -162,7 +162,7 @@ class Crawler(Thread):
                                  self._clean_data(college),
                                  self._clean_data(url.encode('utf-8'))])
 
-                print self._clean_data(name), self._clean_data(title), self._clean_data(location), self._clean_data(connection, 'connection'), self._clean_data(company), self._clean_data(college), self._clean_data(url.encode('utf-8'))
+                # print self._clean_data(name), self._clean_data(title), self._clean_data(location), self._clean_data(connection, 'connection'), self._clean_data(company), self._clean_data(college), self._clean_data(url.encode('utf-8'))
 
         # crawling finished or terminated
         self.driver.quit()
@@ -190,4 +190,5 @@ class Crawler(Thread):
 
 if __name__ == '__main__':
     crawler = Crawler()
-    print crawler.status()
+    crawler.start()
+    # print crawler.status()
