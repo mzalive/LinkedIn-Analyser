@@ -1,6 +1,8 @@
-api_crawler = 'http://localhost:5000/crawler/';
-api_dataset = 'http://localhost:5000/dataset/';
-api_cluster = 'http://localhost:5000/cluster/';
+api_base_url = 'https://linkedin-analyser-backend.herokuapp.com/';
+
+api_crawler = api_base_url + 'crawler/';
+api_dataset = api_base_url + 'dataset/';
+api_cluster = api_base_url + 'cluster/';
 
 var timerHandler;
 var current_dataset = 'demo';
