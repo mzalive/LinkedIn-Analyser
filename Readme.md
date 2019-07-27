@@ -8,6 +8,7 @@
 
 ## Demo
 Live demo at: https://https://mzalive.org/linkedin-analyser/
+
 *The sacrificed Linkedin account seems to have been banned already.*
 
 Note:
