@@ -29,7 +29,7 @@ You may want to use a one-time account to do this as there is risks of getting b
 ### Front-end
 
 1. After you start the back-end service, open `web/js/main.js`, you'll find the api root url at the top. 
-Replace the `api_base_url` filed to reflect the local back-end server you just started.
+Replace the `api_base_url` field to reflect the local back-end server you just started.
 2. Copy the `web` directory to a working directory of any http server and serve.
 
 ## Credits
