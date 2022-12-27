@@ -33,4 +33,4 @@ Werkzeug==0.15.5
 Flask-RESTful==0.3.7
 parsel==1.5.1
 selenium==3.141.0
-setuptools==41.0.1
+setuptools==65.5.1
